@@ -12,4 +12,6 @@ jobs:
       - run:
           name: test the generated html files
           command: htmlproofer ~/src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
-      - deploy: echo TODO
+      - deploy:
+          name: push to master branch
+          command: echo TODO
