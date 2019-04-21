@@ -2,15 +2,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
-
+      - image: cibuilds/hugo:0.55.2
+    working_directory: ~/src
     steps:
+      - run: apk update && apk add git
       - checkout
-
+      - run: git submodule update --init
+      - run: hugo -v -s ~/src
       - run:
-          name: Greeting
-          command: echo Hello, world.
-
-      - run:
-          name: Print the Current Time
-          command: date
+          name: test the generated html files
+          command: htmlproofer ~/src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+      - deploy: echo TODO
