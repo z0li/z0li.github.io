@@ -1,0 +1,11 @@
+baseURL = "http://z0li.github.io/"
+languageCode = "en-us"
+title = "z0li"
+theme = "hyde"
+
+[params]
+  description = "just some random notes, mostly for myself"
+  layoutReverse = true
+
+[taxonomies]
+  tag = "tags"
