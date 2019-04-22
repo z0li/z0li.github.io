@@ -14,4 +14,4 @@ jobs:
           command: htmlproofer ~/src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
       - deploy:
           name: push to master branch
-          command: echo TODO
+          command: ./deploy.sh
