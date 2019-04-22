@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "* checking out the master branch:"
 git clone --single-branch --branch master git@github.com:z0li/z0li.github.io.git master
