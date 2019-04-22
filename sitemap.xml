@@ -3,36 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://z0li.github.io/how-to-highlight-with-grep-without-filtering/</loc>
+    <loc>https://z0li.github.io/how-to-highlight-with-grep-without-filtering/</loc>
     <lastmod>2019-04-21T15:59:12+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://z0li.github.io/tags/</loc>
-    <lastmod>2019-04-21T15:59:12+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://z0li.github.io/tags/grep/</loc>
+    <loc>https://z0li.github.io/tags/</loc>
     <lastmod>2019-04-21T15:59:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://z0li.github.io/tags/howto/</loc>
+    <loc>https://z0li.github.io/tags/grep/</loc>
     <lastmod>2019-04-21T15:59:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://z0li.github.io/tags/unix/</loc>
+    <loc>https://z0li.github.io/tags/howto/</loc>
     <lastmod>2019-04-21T15:59:12+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://z0li.github.io/</loc>
+    <loc>https://z0li.github.io/tags/unix/</loc>
+    <lastmod>2019-04-21T15:59:12+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://z0li.github.io/</loc>
     <lastmod>2019-04-21T15:59:12+02:00</lastmod>
     <priority>0</priority>
   </url>
