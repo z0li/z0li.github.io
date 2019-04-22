@@ -9,6 +9,7 @@ rsync -arv public/ master --delete --exclude ".git"
 cp README.md master/
 
 echo "* pushing to master:"
+git config user.name "CircleCI"
 cd master
 git add -A
 git commit -m "Automated deplyoment job ${CIRCLE_BRANCH} #${CIRCLE_BUILD_NUM} [skip ci]" --allow-empty

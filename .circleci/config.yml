@@ -6,6 +6,9 @@ jobs:
     working_directory: ~/src
     steps:
       - run: apk update && apk add git
+      - add_ssh_keys:
+          fingerprints:
+            - ${SSH_FINGERPRINT}
       - checkout
       - run: git submodule update --init
       - run: hugo -v -s ~/src
