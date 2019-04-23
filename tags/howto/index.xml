@@ -17,7 +17,7 @@
       <pubDate>Sun, 21 Apr 2019 15:59:12 +0200</pubDate>
       
       <guid>https://z0li.github.io/how-to-highlight-with-grep-without-filtering/</guid>
-      <description>Sometimes you wanna highlight certain keywords in a file and still see every line, not just the ones that are matching:
+      <description>Sometimes you want to highlight certain keywords in a file and still see every line, not just the ones that are matching:
 $ egrep --color &amp;#39;hello|world|^&amp;#39; &amp;lt;filename&amp;gt; </description>
     </item>
     
