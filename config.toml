@@ -5,8 +5,13 @@ theme = "hyde"
 enableRobotsTXT = true
 
 [params]
-  description = "just some random notes, mostly for myself"
+  description = "just some random notes - mostly for myself"
   layoutReverse = true
 
 [taxonomies]
   tag = "tags"
+
+[menu]
+  [[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/z0li"
