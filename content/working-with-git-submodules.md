@@ -1,6 +1,7 @@
 ---
 title: "Working with git submodules"
 date: 2019-04-27T20:20:42+02:00
+tags: ["howto", "git", "submodule"]
 ---
 
 Adding a new submodule to your git repository:
