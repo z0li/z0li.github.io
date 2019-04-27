@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>howto on z0li</title>
-    <link>https://z0li.github.io/tags/howto/</link>
-    <description>Recent content in howto on z0li</description>
+    <title>submodule on z0li</title>
+    <link>https://z0li.github.io/tags/submodule/</link>
+    <description>Recent content in submodule on z0li</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Apr 2019 20:20:42 +0200</lastBuildDate>
     
-	<atom:link href="https://z0li.github.io/tags/howto/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://z0li.github.io/tags/submodule/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -22,16 +22,6 @@ $ git submodule add https://github.com/z0li/hyde.git themes/hyde Initializing th
 $ git submodule update --init After this your submodules will be in a detached HEAD state. You can pull the latest updates from the remote master with:
 $ git submodule update --remote And finally, you can commit and push the changes to the main repository:
 $ git add themes/hyde $ git commit -m &amp;#34;Moved themes/hyde submodule to track the latest commit&amp;#34; $ git push </description>
-    </item>
-    
-    <item>
-      <title>How to use grep to highlight matches without filtering out the rest</title>
-      <link>https://z0li.github.io/how-to-highlight-with-grep-without-filtering/</link>
-      <pubDate>Sun, 21 Apr 2019 15:59:12 +0200</pubDate>
-      
-      <guid>https://z0li.github.io/how-to-highlight-with-grep-without-filtering/</guid>
-      <description>Sometimes you want to highlight certain keywords in a file and still see every line, not just the ones that are matching:
-$ egrep --color &amp;#39;hello|world|^&amp;#39; &amp;lt;filename&amp;gt; </description>
     </item>
     
   </channel>
