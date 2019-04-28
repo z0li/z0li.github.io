@@ -6,7 +6,6 @@ enableRobotsTXT = true
 
 [params]
   description = "just some random notes - mostly for myself"
-  layoutReverse = true
 
 [taxonomies]
   tag = "tags"
