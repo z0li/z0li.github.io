@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cibuilds/hugo:0.55.2
+      - image: z0li/hugo-builder:0.55.4
     working_directory: ~/src
     steps:
       - run: apk update && apk add git
