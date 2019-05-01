@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: z0li/hugo-builder:0.55.4
+      - image: z0li/hugo-builder:latest
     working_directory: /src
     steps:
       - run: apk update && apk add git
