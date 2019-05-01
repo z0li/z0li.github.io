@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: z0li/hugo-builder:0.55.4
-    working_directory: ~/src
+    working_directory: /src
     steps:
       - run: apk update && apk add git
       - add_ssh_keys:
@@ -11,10 +11,10 @@ jobs:
             - "01:77:67:4d:7d:b4:b6:01:c4:08:32:1f:ba:8e:d6:dc"
       - checkout
       - run: git submodule update --init
-      - run: hugo -v -s ~/src
+      - run: hugo -v -s /src
       - run:
           name: test the generated html files
-          command: htmlproofer ~/src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+          command: htmlproofer /src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
       - deploy:
           name: push to master branch
           command: ./deploy.sh
