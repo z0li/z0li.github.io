@@ -5,7 +5,7 @@ jobs:
       - image: z0li/hugo-builder:latest
     working_directory: /src
     steps:
-      - run: apk update && apk add git
+      - run: apk add git openssh
       - add_ssh_keys:
           fingerprints:
             - "01:77:67:4d:7d:b4:b6:01:c4:08:32:1f:ba:8e:d6:dc"
