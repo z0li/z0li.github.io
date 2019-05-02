@@ -3,6 +3,7 @@ languageCode = "en-us"
 title = "z0li"
 theme = "hyde"
 enableRobotsTXT = true
+googleAnalytics = "UA-139415862-1"
 
 [params]
   description = "just some random notes - mostly for myself"
