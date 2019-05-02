@@ -10,7 +10,7 @@ jobs:
             - "01:77:67:4d:7d:b4:b6:01:c4:08:32:1f:ba:8e:d6:dc"
       - checkout
       - run: git submodule update --init
-      - run: hugo -v -s /src -d /src/public
+      - run: hugo -v -s /src -d /src/public --minify
       - run:
           name: test the generated html files
           command: htmlproofer /src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
