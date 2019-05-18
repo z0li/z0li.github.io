@@ -55,8 +55,8 @@ We will use CircleCI to monitor our newly created `development` branch and run H
 
 Create a `.circleci\config.yml` for the CircleCI configuration:
 
-{{< highlight txt >}}
-$ vim .circleci\config.yml
+{{< highlight shell >}}
+$ vim .circleci/config.yml
 {{< / highlight >}}
 
 In the configuration first we have to define the Docker image needed for the build. For this we will use [z0li/hugo-builder](https://hub.docker.com/r/z0li/hugo-builder):
