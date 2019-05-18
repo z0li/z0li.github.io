@@ -53,7 +53,7 @@ We will use CircleCI to monitor our newly created `development` branch and run H
 
 ### CircleCI build configuration
 
-Create a `.circleci\config.yml` for the CircleCI configuration:
+Create a `.circleci/config.yml` for the CircleCI configuration:
 
 {{< highlight shell >}}
 $ vim .circleci/config.yml
