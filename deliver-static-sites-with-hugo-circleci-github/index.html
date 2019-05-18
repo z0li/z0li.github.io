@@ -1,0 +1,68 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=//gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.55.6"><meta name=viewport content="width=device-width,initial-scale=1"><title>Continuously deliver static sites with Hugo, CircleCI and GitHub Pages &middot; z0li</title><link type=text/css rel=stylesheet href=https://z0li.github.io/css/print.min.css media=print><link type=text/css rel=stylesheet href=https://z0li.github.io/css/bundle.min.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://z0li.github.io/><h1>z0li</h1></a><p class=lead>just some random notes - mostly for myself</p></div><nav><ul class=sidebar-nav><li><a href=https://z0li.github.io/>Home</a></li><li><a href=https://github.com/z0li>GitHub</a></li></ul></nav><p class=copyright>&copy; 2019. All rights reserved.
+Built with <a href=https://gohugo.io>Hugo</a>.</p></div></aside><main class="content container"><div class=post><h1>Continuously deliver static sites with Hugo, CircleCI and GitHub Pages</h1><time datetime=2019-05-18T16:03:52&#43;0200 class=post-date>Sat, May 18, 2019</time><p>In this tutorial you will learn how to use <a href=https://gohugo.io>Hugo</a> and <a href=https://circleci.com>CircleCI</a> to continuously deliver a static site to GitHub Pages.</p><h2 id=prerequisites>Prerequisites</h2><ul><li>A Github account</li></ul><h2 id=github-pages>GitHub Pages</h2><p><a href=https://pages.github.com/>Create a GitHub Pages repository</a> and clone it - the name of the respository must be <code>&lt;username&gt;.github.io</code>:</p><pre><code>git clone git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git
+</code></pre><h2 id=hello-hugo>Hello Hugo</h2><p>Follow the <a href=https://gohugo.io/getting-started/quick-start/>official Hugo Quick Start guide</a> to setup Hugo on your machine and create some content inside the newly created repository.</p><p>Create a <code>.gitignore</code> file to ignore Hugo&rsquo;s build directories:</p><pre><code>$ vim .gitignore 
+/public
+/resources
+</code></pre><p>Push everything to a new branch named <code>development</code>:</p><pre><code>git checkout -b development
+git push -u origin development
+</code></pre><h2 id=github-deploy-key>GitHub Deploy Key</h2><p><a href=https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys>Register a new Deploy Key</a> with write access to your repository. This will be needed for CircleCI to be able to publish the content.</p><h2 id=circleci>CircleCI</h2><p>We will use CircleCI to monitor our newly created <code>development</code> branch and run Hugo inside a Docker container after each commit. Finally, we will publish the content of the <code>public</code> directory to the <code>master</code> of our repository.</p><ol><li><p><a href=https://circleci.com/signup/>Sign up to CircleCI</a> using your GitHub account</p></li><li><p>And <a href=https://circleci.com/add-projects>add your repository</a> as a CircleCI project</p></li><li><p><a href=https://circleci.com/docs/2.0/add-ssh-key/>Set up your new Deploy Key in CircleCI</a></p></li></ol><h3 id=circleci-build-configuration>CircleCI build configuration</h3><p>Create a <code>.circleci\config.yml</code> for the CircleCI configuration:</p><pre><code>$ vim .circleci\config.yml
+</code></pre><p>In the configuration first we have to define the Docker image needed for the build. For this we will use <a href=https://hub.docker.com/r/z0li/hugo-builder>z0li/hugo-builder</a>:</p><pre><code>version: 2
+jobs:
+  build:
+    docker:
+      - image: z0li/hugo-builder:latest
+</code></pre><p>Next we define a working directory and the build steps:</p><pre><code>    working_directory: /src
+    steps:
+</code></pre><p>Instruct CircleCI to use your Deploy Key:</p><pre><code>    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - &quot;&lt;your_deploy_key_fingerprint&gt;&quot;
+</code></pre><p>Note: make sure to replace <code>&lt;your_deploy_key_fingerprint&gt;</code> with the actual fingerprint of your own key.</p><p>Checkout your code and setup the git submodule containing the Hugo theme:</p><pre><code>    steps:
+      - checkout
+      - run: git submodule update --init
+</code></pre><p>Run Hugo to generate the static content:</p><pre><code>      - run: hugo -v -s /src -d /src/public
+</code></pre><p>The Docker image comes with <a href=https://github.com/gjtorikian/html-proofer>htmlproofer</a>, we will use it to verify our html files:</p><pre><code>      - run:
+          name: test the generated html files
+          command: htmlproofer /src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+</code></pre><p>Create a <code>deploy.sh</code> that will contain the commands for pushing the changes back to the <code>master</code> of your repository:</p><pre><code>#!/bin/bash
+set -e
+
+echo &quot;* checking out the master branch:&quot;
+git clone --single-branch --branch master git@github.com:z0li/z0li.github.io.git master
+
+echo &quot;* synchronizing the files:&quot;
+rsync -arv public/ master --delete --exclude &quot;.git&quot;
+cp README.md master/
+
+echo &quot;* pushing to master:&quot;
+cd master
+git config user.name &quot;CircleCI&quot;
+git config user.email ${GIT_EMAIL}
+git add -A
+git commit -m &quot;Automated deployment job ${CIRCLE_BRANCH} #${CIRCLE_BUILD_NUM} [skip ci]&quot; --allow-empty
+git push origin master
+
+echo &quot;* done&quot;
+</code></pre><p>Execute this script as the final build step:</p><pre><code>      - deploy:
+          name: push to master branch
+          command: sh deploy.sh
+</code></pre><h3 id=config-yml>config.yml</h3><p>Your <code>config.yml</code> should look like this:</p><pre><code>version: 2
+jobs:
+  build:
+    docker:
+      - image: z0li/hugo-builder:latest
+    working_directory: /src
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - &quot;&lt;your_deploy_key_fingerprint&gt;&quot;
+      - checkout
+      - run: git submodule update --init
+      - run: hugo -v -s /src -d /src/public
+      - run:
+          name: test the generated html files
+          command: htmlproofer /src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
+      - deploy:
+          name: push to master branch
+          command: sh deploy.sh
+</code></pre><h2 id=finally>Finally</h2><p>Push your <code>.circleci\config.yml</code> to the <code>development</code> branch and it should trigger a new build and deployment. Visit <code>https://&lt;username&gt;.github.io</code> to see the end result.</p></div></main><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-139415862-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>
