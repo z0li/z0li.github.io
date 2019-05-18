@@ -14,9 +14,9 @@ In this tutorial you will learn how to use [Hugo](https://gohugo.io) and [Circle
 
 [Create a GitHub Pages repository](https://pages.github.com/) and clone it - the name of the respository must be `<username>.github.io`:
 
-```
-git clone git@github.com:<username>/<username>.github.io.git
-```
+{{< highlight shell >}}
+$ git clone git@github.com:<username>/<username>.github.io.git
+{{< / highlight >}}
 
 ## Hello Hugo
 
@@ -24,18 +24,18 @@ Follow the [official Hugo Quick Start guide](https://gohugo.io/getting-started/q
 
 Create a `.gitignore` file to ignore Hugo's build directories:
 
-```
+{{< highlight shell >}}
 $ vim .gitignore 
 /public
 /resources
-```
+{{< / highlight >}}
 
 Push everything to a new branch named `development`:
 
-```
-git checkout -b development
-git push -u origin development
-```
+{{< highlight shell >}}
+$ git checkout -b development
+$ git push -u origin development
+{{< / highlight >}}
 
 ## GitHub Deploy Key
 
@@ -55,63 +55,63 @@ We will use CircleCI to monitor our newly created `development` branch and run H
 
 Create a `.circleci\config.yml` for the CircleCI configuration:
 
-```
+{{< highlight txt >}}
 $ vim .circleci\config.yml
-```
+{{< / highlight >}}
 
 In the configuration first we have to define the Docker image needed for the build. For this we will use [z0li/hugo-builder](https://hub.docker.com/r/z0li/hugo-builder):
 
-```
+{{< highlight yaml >}}
 version: 2
 jobs:
   build:
     docker:
       - image: z0li/hugo-builder:latest
-```
+{{< / highlight >}}
 
 Next we define a working directory and the build steps:
 
-```
+{{< highlight yaml >}}
     working_directory: /src
     steps:
-```
+{{< / highlight >}}
 
 Instruct CircleCI to use your Deploy Key:
 
-```    
+{{< highlight yaml >}}  
     steps:
       - add_ssh_keys:
           fingerprints:
             - "<your_deploy_key_fingerprint>"
-```
+{{< / highlight >}}
 
 Note: make sure to replace `<your_deploy_key_fingerprint>` with the actual fingerprint of your own key.
 
 Checkout your code and setup the git submodule containing the Hugo theme:
 
-```
+{{< highlight yaml >}}
     steps:
       - checkout
       - run: git submodule update --init
-```
+{{< / highlight >}}
 
 Run Hugo to generate the static content:
 
-```
+{{< highlight yaml >}}
       - run: hugo -v -s /src -d /src/public
-```
+{{< / highlight >}}
 
 The Docker image comes with [htmlproofer](https://github.com/gjtorikian/html-proofer), we will use it to verify our html files:
 
-```
+{{< highlight yaml >}}
       - run:
           name: test the generated html files
           command: htmlproofer /src/public --allow-hash-href --check-html --empty-alt-ignore --disable-external
-```
+{{< / highlight >}}
 
 Create a `deploy.sh` that will contain the commands for pushing the changes back to the `master` of your repository:
 
-```
+{{< highlight shell >}}
 #!/bin/bash
 set -e
 
@@ -131,21 +131,21 @@ git commit -m "Automated deployment job ${CIRCLE_BRANCH} #${CIRCLE_BUILD_NUM} [s
 git push origin master
 
 echo "* done"
-```
+{{< / highlight >}}
 
 Execute this script as the final build step:
 
-```
+{{< highlight yaml >}}
       - deploy:
           name: push to master branch
           command: sh deploy.sh
-```
+{{< / highlight >}}
 
 ### config.yml
 
 Your `config.yml` should look like this:
 
-```
+{{< highlight yaml >}}
 version: 2
 jobs:
   build:
@@ -165,7 +165,7 @@ jobs:
       - deploy:
           name: push to master branch
           command: sh deploy.sh
-```
+{{< / highlight >}}
 
 ## Finally
 
