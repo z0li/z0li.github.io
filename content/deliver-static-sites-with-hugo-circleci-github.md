@@ -169,4 +169,4 @@ jobs:
 
 ## Finally
 
-Push your `.circleci\config.yml` to the `development` branch and it should trigger a new build and deployment. Visit `https://<username>.github.io` to see the end result.
+Push your `.circleci/config.yml` to the `development` branch and it should trigger a new build and deployment. Visit `https://<username>.github.io` to see the end result.
